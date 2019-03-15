@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Background="SteelBlue"
         Title="GameSessionView" 
-        Height="600" 
-        Width="900">
+        Height="650" 
+        Width="950">
     <Window.Resources>
         <LinearGradientBrush 
             x:Key="GrayBlueGradientBrush" 
@@ -191,6 +191,11 @@
                                 Orientation="Horizontal">
                                 <TextBox Text="{Binding Player.Race}" Style="{StaticResource MainPanelTextBoxStyle}"/>
                                 <Label Content="Race" Style="{StaticResource MainPanelLabelStyle}"/>
+                            </StackPanel>
+                            <StackPanel
+                                Orientation="Horizontal">
+                                <TextBox Text="{Binding Player.MemoryPoints}" Style="{StaticResource MainPanelTextBoxStyle}"/>
+                                <Label Content="Memories" Style="{StaticResource MainPanelLabelStyle}"/>
                             </StackPanel>
                         </StackPanel>
                         <Border

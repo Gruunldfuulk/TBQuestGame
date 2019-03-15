@@ -37,7 +37,7 @@ namespace TBQuestGame.BusinessLayer
                 //
                 // setup up game based player properties
                 //
-                _player.ExperiencePoints = 0;
+                _player.MemoryPoints = 0;
                 _player.Health = 100;
                 _player.Lives = 3;
             }

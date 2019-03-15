@@ -20,7 +20,7 @@ namespace TBQuestGame.DataLayer
                 Race = Character.RaceType.Human,
                 Health = 100,
                 Lives = 3,
-                ExperiencePoints = 0,
+                MemoryPoints = 0,
                 LocationId = 0
             };
         }

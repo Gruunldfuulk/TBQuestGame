@@ -18,7 +18,7 @@ namespace TBQuestGame.Models
 
         private int _lives;
         private int _health;
-        private int _experiencePoints;
+        private int _memoryPoints;
         private JobTitleName _jobTitle;
 
         #endregion
@@ -43,10 +43,10 @@ namespace TBQuestGame.Models
             set { _health = value; }
         }
 
-        public int ExperiencePoints
+        public int MemoryPoints
         {
-            get { return _experiencePoints; }
-            set { _experiencePoints = value; }
+            get { return _memoryPoints; }
+            set { _memoryPoints = value; }
         }
 
         #endregion
