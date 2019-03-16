@@ -9,6 +9,10 @@ using TBQuestGame.Models;
 
 namespace TBQuestGame.BusinessLayer
 {
+    /// <summary>
+    /// business logic layer class
+    /// manages windows and interacts with the data layer
+    /// </summary>
     public class GameBusiness
     {
         GameSessionViewModel _gameSessionViewModel;
@@ -16,6 +20,8 @@ namespace TBQuestGame.BusinessLayer
         Player _player = new Player();
         PlayerSetupView _playerSetupView = null;
         List<string> _messages;
+        Map _gameMap;
+        Location _currentLocation;
 
         public GameBusiness()
         {
@@ -39,7 +45,7 @@ namespace TBQuestGame.BusinessLayer
                 //
                 _player.MemoryPoints = 0;
                 _player.Health = 100;
-                _player.Lives = 3;
+                _player.Credits = 100;
             }
             else
             {
@@ -54,6 +60,8 @@ namespace TBQuestGame.BusinessLayer
         {
             _player = GameData.PlayerData();
             _messages = GameData.InitialMessages();
+            _currentLocation = GameData.InitialGameMapLocation();
+            _gameMap = GameData.GameMap();
         }
 
         /// <summary>
@@ -64,7 +72,7 @@ namespace TBQuestGame.BusinessLayer
             //
             // instantiate the view model and initialize the data set
             //
-            _gameSessionViewModel = new GameSessionViewModel(_player, _messages);
+            _gameSessionViewModel = new GameSessionViewModel(_player, _messages, _gameMap, _currentLocation);
             GameSessionView gameSessionView = new GameSessionView(_gameSessionViewModel);
 
             gameSessionView.DataContext = _gameSessionViewModel;

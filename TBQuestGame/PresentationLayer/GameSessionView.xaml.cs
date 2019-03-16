@@ -32,7 +32,12 @@ namespace TBQuestGame.PresentationLayer
 
         private void InitializeWindowTheme()
         {
-            this.Title = "Laughing Leaf Productions";
+            this.Title = "Storm Cloud Productions";
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

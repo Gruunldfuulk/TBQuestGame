@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TBQuestGame.PresentationLayer"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Background="SteelBlue"
         Title="GameSessionView" 
         Height="650" 
-        Width="950">
+        Width="1200">
     <Window.Resources>
         <LinearGradientBrush 
             x:Key="GrayBlueGradientBrush" 
@@ -121,7 +122,7 @@
                             VerticalAlignment="Center"
                             Margin="4">
                             <Label 
-                                Content="Status" 
+                                Content="Status:" 
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource MainPanelLabelStyle}"/>
@@ -131,12 +132,18 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Margin="4">
-                            <Label 
-                                Content="Location"
-                                Padding="0, 0, 100, 0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Style="{StaticResource MainPanelLabelStyle}"/>
+                            <TextBox
+                                Margin="5"
+                                Width="200"
+                                Text="{Binding CurrentLocation.Name}"
+                                Style="{StaticResource MainPanelTextBoxStyle}"/>
+                        </StackPanel>
+                        <StackPanel
+                                Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Margin="1">
+                            <Label Content="Credits:" Style="{StaticResource MainPanelLabelStyle}" Padding="0, 20, 20, 0"/>
+                            <TextBox Text="{Binding Player.Credits}" Style="{StaticResource MainPanelTextBoxStyle}" Padding="0, 0, 0, 0"/>
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -151,10 +158,18 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Margin="0">
-                            <Label 
-                                Content="Travel Interface" 
-                                HorizontalAlignment="Center"
-                                Style="{StaticResource MainPanelLabelStyle}"/>
+                            <TextBox
+                                Margin="5"
+                                Width="auto"
+                                TextWrapping="Wrap"
+                                Height="100"
+                                Text="{Binding CurrentLocation.Description}"
+                                Style="{StaticResource MainPanelTextBoxStyle}" TextChanged="TextBox_TextChanged"/>
+                            <ListBox
+	                                Width="300"
+                                   	ItemsSource="{Binding AccessibleLocations}"
+                                   	SelectedItem="{Binding CurrentLocationName}">
+                            </ListBox>
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -165,9 +180,10 @@
                     <Grid
                         Margin="5">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="0.7*"/>
                             <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel
                             Grid.Column="0"
@@ -202,6 +218,13 @@
                             Grid.Column="1"
                             Margin="0"
                             Padding="0"
+                            Style="{StaticResource BorderStyle}">
+                            <Label Content="Character Picture" Style="{StaticResource MainPanelLabelStyle}" HorizontalAlignment="Center"/>
+                        </Border>
+                        <Border
+                            Grid.Column="2"
+                            Margin="0"
+                            Padding="0"
                             Background="WhiteSmoke"
                             Style="{StaticResource BorderStyle}">
                             <TextBox
@@ -217,7 +240,7 @@
                                 Style="{StaticResource MainPanelTextBoxStyle}"/>
                         </Border>
                         <StackPanel
-                            Grid.Column="2"
+                            Grid.Column="3"
                             Orientation="Vertical">
                             <Label 
                                 HorizontalAlignment="Center"

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TBQuestGame.Models
 {
+    /// <summary>
+    /// base class for all game characters
+    /// </summary>
     public class Character 
     {
         #region ENUMERABLES
@@ -26,13 +29,13 @@ namespace TBQuestGame.Models
         protected int _locationId;
         protected int _age;
         protected RaceType _race;
-        //private List<Location> _locationsVisited;
+        private List<Location> _locationsVisited;
 
-        //public List<Location> LocationsVisited
-        //{
-        //    get { return _locationsVisited; }
-        //    set { _locationsVisited = value; }
-        //}
+        public List<Location> LocationsVisited
+        {
+           get { return _locationsVisited; }
+           set { _locationsVisited = value; }
+        }
 
 
         #endregion

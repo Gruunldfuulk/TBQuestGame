@@ -16,7 +16,7 @@ namespace TBQuestGame.Models
 
         #region FIELDS
 
-        private int _lives;
+        private int _credits;
         private int _health;
         private int _memoryPoints;
         private JobTitleName _jobTitle;
@@ -25,10 +25,10 @@ namespace TBQuestGame.Models
 
         #region PROPERTIES
 
-        public int Lives
+        public int Credits
         {
-            get { return _lives; }
-            set { _lives = value; }
+            get { return _credits; }
+            set { _credits = value; }
         }
 
         public JobTitleName JobTitle
