@@ -164,7 +164,7 @@
                                 TextWrapping="Wrap"
                                 Height="100"
                                 Text="{Binding CurrentLocation.Description}"
-                                Style="{StaticResource MainPanelTextBoxStyle}" TextChanged="TextBox_TextChanged"/>
+                                Style="{StaticResource MainPanelTextBoxStyle}"/>
                             <ListBox
 	                                Width="300"
                                    	ItemsSource="{Binding AccessibleLocations}"

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WPFTBQuestGameS2;
 
 namespace TBQuestGame.Models
 {
     /// <summary>
     /// base class for all game characters
     /// </summary>
-    public class Character 
+    public class Character : ObservableObject
     {
         #region ENUMERABLES
 

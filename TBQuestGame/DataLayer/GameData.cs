@@ -42,11 +42,12 @@ namespace TBQuestGame.DataLayer
         {
             return new Location()
             {
-                Id = 4,
-                Name = "Norlon Corporate Headquarters",
-                Description = "The Norlon Corporation Headquarters is located in just outside of Detroit " +
-                         "Michigan.Norlon, founded in 1985 as a bio-tech company, is now a 36 billion dollar company with " +
-                         "huge holdings in defense and space research and development.",
+                Id = 1,
+                Name = "Ajex's Appartment",
+                Description = "Your messy appartment with an old foldout sofa bed in the back. " +
+                         "A computer on your desk now as fried as your headset. Bits of neon lights bleed through your worn shades." +
+                         " On the side table you find your credit stick and speeder bike keys. Under your keys is a bar tab from last night" +
+                         ", marked 'Bad Luck Bar' and your drink The Alchemist.",
                 Accessible = true,
                 ModifyMemoryPoints = 10
             };
@@ -62,24 +63,47 @@ namespace TBQuestGame.DataLayer
             {
                 new Location()
                        {
-                         Id = 4,
-                         Name = "Norlon Corporate Headquarters",
-                         Description = "The Norlon Corporation Headquarters is located in just outside of Detroit " +
-                         "Michigan.Norlon, founded in 1985 as a bio-tech company, is now a 36 billion dollar company with " +
-                         "huge holdings in defense and space research and development.",
+                         Id = 1,
+                         Name = "Ajex's Appartment",
+                         Description = "Your messy appartment with an old foldout sofa bed in the back. " +
+                         "A computer on your desk now as fried as your headset. Bits of neon lights bleed through your worn shades." +
+                         " On the side table you find your credit stick and speeder bike keys. Under your keys is a bar tab from last night"+
+                         ", marked 'Bad Luck Bar' and your drink The Alchemist.",
                           Accessible = true,
                           ModifyMemoryPoints = 10
                        },
                 new Location()
                        {
-                        Id = 1,
-                        Name = "Aion Base Lab",
-                        Description = "The Norlon Corporation research facility located in the city of Heraklion on " +
-                        "the north coast of Crete and the top secret research lab for the Aion Project.\nThe lab is a large, " + "" +
-                        "well lit room, and staffed by a small number of scientists, all wearing light blue uniforms with the hydra-like Norlan Corporation logo.",
+                        Id = 2,
+                        Name = "Bad Luck Bar",
+                        Description = "The glowing red eye sign in the back seems familiar and draws you into the building." +
+                        " Inside hang four hexagon lights with a soft white light hitting the crowd in here tonight." +
+                        " A bartender with a small black mustache and his hair shaved on side looks up at you, giving a nod of recognition.",
+                        Accessible = true,
+                        ModifyMemoryPoints = 10
+                     },
+                new Location()
+                       {
+                         Id = 3,
+                         Name = "I.C.S Warehouse",
+                         Description = "The main doors are broken as you come up to the building. " +
+                         "A set of stairs leads up to the second floor door that is open. Inside you find a number of broken boxes," +
+                         " with the words Integrated Computer Systems on the side of some of them. A smell hits your nose as you turn to"+
+                         " find the source. Two bodies are hidden off to back corner of the building, both male and dressed as streetpunks.",
+                          Accessible = true,
+                          ModifyMemoryPoints = 10
+                       },
+                new Location()
+                       {
+                        Id = 4,
+                        Name = "Detroit Opera House",
+                        Description = "The old Opera House is a shadow of what it use to be. The once bright gold and red" +
+                        " colors now washed out over the years. The wind whistles through some of the holes in the building, as" +
+                        " bits of water drips from the once grand arched ceiling.",
                         Accessible = true,
                         ModifyMemoryPoints = 10
                      }
+
             };
 
             return gameMap;

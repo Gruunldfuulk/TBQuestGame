@@ -103,6 +103,8 @@ namespace TBQuestGame.PresentationLayer
             set { _gameMap = value; }
         }
 
+        
+
         #endregion
 
         #region METHODS
@@ -158,13 +160,13 @@ namespace TBQuestGame.PresentationLayer
             _currentLocation = AccessibleLocations.FirstOrDefault(l => l.Name == _currentLocationName);
 
             //
-            // Update experiance points
+            // Update experiance points ( So far this will crash the program. Will look into this for part 2 of S2 to make this work)
             //
-            if (!_player.LocationsVisited.Contains(_currentLocation))
-            {
-               _player.MemoryPoints += _currentLocation.ModifyMemoryPoints;
-                _player.LocationsVisited.Add(_currentLocation);
-            }
+            //if (!_player.LocationsVisited.Contains(_currentLocation))
+            //{
+            //   _player.MemoryPoints += _currentLocation.ModifyMemoryPoints;
+            //    _player.LocationsVisited.Add(_currentLocation);
+            //}
 
 
         }

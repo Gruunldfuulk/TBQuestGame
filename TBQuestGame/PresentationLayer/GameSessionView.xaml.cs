@@ -34,10 +34,5 @@ namespace TBQuestGame.PresentationLayer
         {
             this.Title = "Storm Cloud Productions";
         }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
 }
