@@ -99,7 +99,8 @@ namespace TBQuestGame.DataLayer
                         Name = "Detroit Opera House",
                         Description = "The old Opera House is a shadow of what it use to be. The once bright gold and red" +
                         " colors now washed out over the years. The wind whistles through some of the holes in the building, as" +
-                        " bits of water drips from the once grand arched ceiling.",
+                        " bits of water drips from the once grand arched ceiling. A number pops in your head as your hand touches a seat" +
+                        "'318.'",
                         Accessible = true,
                         ModifyMemoryPoints = 10
                      }
