@@ -49,7 +49,7 @@ namespace TBQuestGame.DataLayer
                          " On the side table you find your credit stick and speeder bike keys. Under your keys is a bar tab from last night" +
                          ", marked 'Bad Luck Bar' and your drink The Alchemist.",
                 Accessible = true,
-                ModifyMemoryPoints = 10
+                ModifyMemoryPoints = 0
             };
         }
 
@@ -70,7 +70,7 @@ namespace TBQuestGame.DataLayer
                          " On the side table you find your credit stick and speeder bike keys. Under your keys is a bar tab from last night"+
                          ", marked 'Bad Luck Bar' and your drink The Alchemist.",
                           Accessible = true,
-                          ModifyMemoryPoints = 10
+                          ModifyMemoryPoints = 1
                        },
                 new Location()
                        {
@@ -80,7 +80,7 @@ namespace TBQuestGame.DataLayer
                         " Inside hang four hexagon lights with a soft white light hitting the crowd in here tonight." +
                         " A bartender with a small black mustache and his hair shaved on side looks up at you, giving a nod of recognition.",
                         Accessible = true,
-                        ModifyMemoryPoints = 10
+                        ModifyMemoryPoints = 1                       
                      },
                 new Location()
                        {
@@ -90,8 +90,9 @@ namespace TBQuestGame.DataLayer
                          "A set of stairs leads up to the second floor door that is open. Inside you find a number of broken boxes," +
                          " with the words Integrated Computer Systems on the side of some of them. A smell hits your nose as you turn to"+
                          " find the source. Two bodies are hidden off to back corner of the building, both male and dressed as streetpunks.",
-                          Accessible = true,
-                          ModifyMemoryPoints = 10
+                          Accessible = false,
+                          ModifyMemoryPoints = 1,
+                          RequiredMemoryPoints = 3
                        },
                 new Location()
                        {
@@ -101,11 +102,13 @@ namespace TBQuestGame.DataLayer
                         " colors now washed out over the years. The wind whistles through some of the holes in the building, as" +
                         " bits of water drips from the once grand arched ceiling. A number pops in your head as your hand touches a seat" +
                         "'318.'",
-                        Accessible = true,
-                        ModifyMemoryPoints = 10
+                        Accessible = false,
+                        ModifyMemoryPoints = 1,
+                        RequiredMemoryPoints = 2
                      }
 
             };
+            gameMap.CurrentLocation = gameMap.Locations.FirstOrDefault(l => l.Id == 1);
 
             return gameMap;
         }

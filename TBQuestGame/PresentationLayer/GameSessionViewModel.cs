@@ -22,6 +22,7 @@ namespace TBQuestGame.PresentationLayer
         private Player _player;
         private List<string> _messages;
         private DateTime _gameStartTime;
+
         private Map _gameMap;
         private Location _currentLocation;
         private string _currentLocationName;
@@ -148,7 +149,7 @@ namespace TBQuestGame.PresentationLayer
         private void OnPlayerMove()
         {
             //
-            ///Set new current location
+            // set new current location
             //
             foreach (Location location in AccessibleLocations)
             {
@@ -157,18 +158,69 @@ namespace TBQuestGame.PresentationLayer
                     _currentLocation = location;
                 }
             }
-            _currentLocation = AccessibleLocations.FirstOrDefault(l => l.Name == _currentLocationName);
+            //_currentLocation = AccessibleLocations.FirstOrDefault(l => l.Name == _currentLocationName);
 
             //
-            // Update experiance points ( So far this will crash the program. Will look into this for part 2 of S2 to make this work)
+            // update stats if player has not visited the location
             //
-            //if (!_player.LocationsVisited.Contains(_currentLocation))
-            //{
-            //   _player.MemoryPoints += _currentLocation.ModifyMemoryPoints;
-            //    _player.LocationsVisited.Add(_currentLocation);
-            //}
+            if (!_player.HasVisited(_currentLocation))
+            {
+                //
+                // update list of visited locations
+                //
+                _player.LocationsVisited.Add(_currentLocation);
+
+                //
+                // update player memory points
+                //
+                _player.MemoryPoints += _currentLocation.ModifyMemoryPoints;
+
+            }
+
+            //
+            // display a new message if available
+            //
+            OnPropertyChanged(nameof(MessageDisplay));
 
 
+            //
+            // update the list of locations
+            //
+            UpdateAccessibleLocations();
+        }
+
+        /// <summary>
+        /// update the accessible locations for the list box
+        /// </summary>
+        private void UpdateAccessibleLocations()
+        {
+            //
+            // reset accessible locations list
+            //
+            _accessibleLocations.Clear();
+
+            //
+            // add all accessible locations to list
+            //
+            foreach (Location location in _gameMap.Locations)
+            {
+                if (
+                    location.Accessible == true ||
+                    _player.MemoryPoints >= location.RequiredMemoryPoints)
+                {
+                    _accessibleLocations.Add(location);
+                }
+            }
+
+            //
+            // remove current location
+            //
+            _accessibleLocations.Remove(_accessibleLocations.FirstOrDefault(l => l == _currentLocation));
+
+            //
+            // notify list box in view to update
+            //
+            OnPropertyChanged(nameof(AccessibleLocations));
         }
 
         #endregion

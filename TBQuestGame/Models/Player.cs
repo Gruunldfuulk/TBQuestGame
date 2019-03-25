@@ -20,6 +20,7 @@ namespace TBQuestGame.Models
         private int _health;
         private int _memoryPoints;
         private JobTitleName _jobTitle;
+        private List<Location> _locationsVisited;
 
         #endregion
 
@@ -28,36 +29,65 @@ namespace TBQuestGame.Models
         public int Credits
         {
             get { return _credits; }
-            set { _credits = value; }
+            set
+            {
+                _credits = value;
+                OnPropertyChanged(nameof(Credits));
+            }
         }
 
         public JobTitleName JobTitle
         {
             get { return _jobTitle; }
-            set { _jobTitle = value; }
+            set
+            {
+                _jobTitle = value;
+                OnPropertyChanged(nameof(JobTitle));
+            }
         }
 
         public int Health
         {
             get { return _health; }
-            set { _health = value; }
+            set
+            {
+                _health = value;
+                OnPropertyChanged(nameof(Health));
+            }
         }
 
         public int MemoryPoints
         {
             get { return _memoryPoints; }
-            set { _memoryPoints = value; }
+            set
+            {
+                _memoryPoints = value;
+                OnPropertyChanged(nameof(MemoryPoints));
+            }
+        }
+        public List<Location> LocationsVisited
+        {
+            get { return _locationsVisited; }
+            set { _locationsVisited = value; }
         }
 
         #endregion
 
         #region CONSTRUCTORS
 
-    
+        public Player()
+        {
+            _locationsVisited = new List<Location>();
+        }
 
         #endregion
 
         #region METHODS
+
+        public bool HasVisited(Location location)
+        {
+            return _locationsVisited.Contains(location);
+        }
 
         /// <summary>
         /// override the default greeting in the Character class to include the job title

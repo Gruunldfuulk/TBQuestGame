@@ -14,6 +14,10 @@ namespace TBQuestGame.Models
         private string _description;
         private bool _accessible;
         private int _modifyMemoryPoints;
+        private int _requiredMemoryPoints;
+        private int _modifyHealth;
+
+
 
         #endregion
 
@@ -42,6 +46,16 @@ namespace TBQuestGame.Models
         {
             get { return _modifyMemoryPoints; }
             set { _modifyMemoryPoints = value; }
+        }
+        public int RequiredMemoryPoints
+        {
+            get { return _requiredMemoryPoints; }
+            set { _requiredMemoryPoints = value; }
+        }
+        public int ModifyHealth
+        {
+            get { return _modifyHealth; }
+            set { _modifyHealth = value; }
         }
 
         #endregion
