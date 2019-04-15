@@ -17,8 +17,8 @@ namespace TBQuestGame.Models
         public enum RaceType
         {
             Human,
-            Thorian,
-            Xantorian
+            Elf,
+            Gnome
         }
 
         #endregion

@@ -25,8 +25,17 @@ namespace TBQuestGame.DataLayer
                 Health = 100,
                 Credits = 500,
                 MemoryPoints = 0,
-                LocationId = 0
+                LocationId = 0,
+                Inventory = new ObservableCollection<GameItem>()
+                {
+                    GameItemById(1001),
+                    GameItemById(2001)
+                }
             };
+        }
+        private static GameItem GameItemById(int id)
+        {
+            return StandardGameItems().FirstOrDefault(i => i.Id == id);
         }
 
         public static List<string> InitialMessages()
@@ -58,6 +67,7 @@ namespace TBQuestGame.DataLayer
         {
 
             Map gameMap = new Map();
+            gameMap.StandardGameItems = StandardGameItems();
 
             gameMap.Locations = new ObservableCollection<Location>()
             {
@@ -70,7 +80,11 @@ namespace TBQuestGame.DataLayer
                          " On the side table you find your credit stick and speeder bike keys. Under your keys is a bar tab from last night"+
                          ", marked 'Bad Luck Bar' and your drink The Alchemist.",
                           Accessible = true,
-                          ModifyMemoryPoints = 1
+                          ModifyMemoryPoints = 1,
+                                   GameItems = new ObservableCollection<GameItem>
+                                       {
+                                           GameItemById(4001)
+                                       }
                        },
                 new Location()
                        {
@@ -78,9 +92,15 @@ namespace TBQuestGame.DataLayer
                         Name = "Bad Luck Bar",
                         Description = "The glowing red eye sign in the back seems familiar and draws you into the building." +
                         " Inside hang four hexagon lights with a soft white light hitting the crowd in here tonight." +
-                        " A bartender with a small black mustache and his hair shaved on side looks up at you, giving a nod of recognition.",
-                        Accessible = true,
-                        ModifyMemoryPoints = 1                       
+                        " A bartender with a small black mustache and his hair shaved on side looks up at you, giving a nod of recognition." +
+                        " Walking up to the bar he leans up to talk",
+                        Accessible = false,
+                        RequiredClueId = 4001,
+                        ModifyMemoryPoints = 1,
+                        Message = "Back again, I told you you'd like that drink. No friends this time? I hope you guys had" +
+                        " a good time at this Opera you said your were going to. Oh, your friend forgot his credit stick, think" +
+                        " you can give it back to him?",
+                        //ModiftyCredits = 200
                      },
                 new Location()
                        {
@@ -111,6 +131,21 @@ namespace TBQuestGame.DataLayer
             gameMap.CurrentLocation = gameMap.Locations.FirstOrDefault(l => l.Id == 1);
 
             return gameMap;
+        }
+        public static List<GameItem> StandardGameItems()
+        {
+            return new List<GameItem>()
+            {
+                new Weapon(1001, "Chain-Blade", 50, 1, 4, "A small blade with tiny thin blades that spin around the edge", 1),
+                new Weapon(1002, "H-Can-non Mk2", 250, 3, 9, "Small but powerful, the least anyone should have before going out alone", 10),
+                new Treasure(2001, "Old Coin", 10, Treasure.TreasureType.Coin, "A coin with a face on one side faded with time", 0),
+                new Treasure(2002, "Small Diamond", 50, Treasure.TreasureType.Jewel, "A small pea-sized diamond of various colors.", 0),
+                new Treasure(2003, "Self-Portrait of Vincent van Gogh", 500, Treasure.TreasureType.Artifact, "Painted by the knonwn artist in mid-1887, it depicts him wearing a straw hat and turned to the right.", 5),
+                new MedicalAid(3001, "Stimpak", 5, 30, "Pain numbing shot that will help for now. Add 30 points of health.", 5),
+                new MedicalAid(3002, "Medi-Gel", 15, 55, "A gel that when applied to the wound, will send out nanomachines to heal. Add 55 points of health.", 5),
+                new Clues(4001, "Bar Receipt", 5, "Marked 'Bad Luck Bar' and your drink The Alchemist.", 0, "Maybe the bartender will remember you.", Clues.UseActionType.OPENLOCATION),
+                new Clues(4002, "Keycard", 5, "Keycard found under the seat in the Opera House", 5, "Placing the keycard to the door you hear the locks release.", Clues.UseActionType.OPENLOCATION)
+            };
         }
     }
 }

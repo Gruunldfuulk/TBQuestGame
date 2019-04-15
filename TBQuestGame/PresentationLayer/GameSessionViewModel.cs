@@ -4,8 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TBQuestGame.Models;
+using TBQuestGame;
 using System.Collections.ObjectModel;
+using System.Windows.Threading;
 using WPFTBQuestGameS2;
+using System.Windows.Data;
+using System.Windows;
 
 namespace TBQuestGame.PresentationLayer
 {
@@ -26,9 +30,10 @@ namespace TBQuestGame.PresentationLayer
         private Map _gameMap;
         private Location _currentLocation;
         private string _currentLocationName;
+        private string _currentLocationInformation;
         private ObservableCollection<Location> _accessibleLocations;
 
-
+        private GameItem _currentGameItem;
 
 
         #endregion
@@ -46,6 +51,22 @@ namespace TBQuestGame.PresentationLayer
             get { return FormatMessagesForViewer(); }
         }
 
+        public GameItem CurrentGameItem
+        {
+            get { return _currentGameItem; }
+            set { _currentGameItem = value; }
+        }
+
+
+        public string CurrentLocationInformation
+        {
+            get { return _currentLocationInformation; }
+            set
+            {
+                _currentLocationInformation = value;
+                OnPropertyChanged(nameof(CurrentLocationInformation));
+            }
+        }
         #endregion
 
         #region CONSTRUCTORS
@@ -117,6 +138,8 @@ namespace TBQuestGame.PresentationLayer
         {
             _gameStartTime = DateTime.Now;
             _accessibleLocations = _gameMap.AccessibleLocations;
+            _player.UpdateInventoryCategories();    
+            _player.CalculateCredit();
         }
 
         /// <summary>
@@ -174,6 +197,7 @@ namespace TBQuestGame.PresentationLayer
                 // update player memory points
                 //
                 _player.MemoryPoints += _currentLocation.ModifyMemoryPoints;
+                _player.Credits += _currentLocation.ModifyCredits;
 
             }
 
@@ -221,6 +245,159 @@ namespace TBQuestGame.PresentationLayer
             // notify list box in view to update
             //
             OnPropertyChanged(nameof(AccessibleLocations));
+        }
+
+        /// <summary>
+        /// add a new item to the players inventory
+        /// </summary>
+        /// <param name="selectedItem"></param>
+        public void AddItemToInventory()
+        {
+            //
+            // confirm a game item selected and is in current location
+            // subtract from location and add to inventory
+            //
+            if (_currentGameItem != null && _currentLocation.GameItems.Contains(_currentGameItem))
+            {
+                //
+                // cast selected game item 
+                //
+                GameItem selectedGameItem = _currentGameItem as GameItem;
+
+                _currentLocation.RemoveGameItemFromLocation(selectedGameItem);
+                _player.AddGameItemToInventory(selectedGameItem);
+
+                OnPlayerPickUp(selectedGameItem);
+            }
+        }
+
+        /// <summary>
+        /// remove item from the players inventory
+        /// </summary>
+        /// <param name="selectedItem"></param>
+        public void RemoveItemFromInventory()
+        {
+            //
+            // confirm a game item selected
+            // subtract from inventory and add to location
+            //
+            if (_currentGameItem != null)
+            {
+                //
+                // cast selected game item 
+                //
+                GameItem selectedGameItem = _currentGameItem as GameItem;
+
+                _currentLocation.AddGameItemToLocation(selectedGameItem);
+                _player.RemoveGameItemFromInventory(selectedGameItem);
+
+                OnPlayerPutDown(selectedGameItem);
+            }
+        }
+        /// <summary>
+        /// process events when a player picks up a new game item
+        /// </summary>
+        /// <param name="gameItem">new game item</param>
+        private void OnPlayerPickUp(GameItem gameItem)
+        {
+            _player.MemoryPoints += gameItem.ExperiencePoints;
+            _player.Credits += gameItem.Value;
+        }
+
+        /// <summary>
+        /// process events when a player puts down a new game item
+        /// </summary>
+        /// <param name="gameItem">new game item</param>
+        private void OnPlayerPutDown(GameItem gameItem)
+        {
+            _player.Credits -= gameItem.Value;
+        }
+        /// <summary>
+        /// process using an item in the player's inventory
+        /// </summary>
+        public void OnUseGameItem()
+        {
+            switch (_currentGameItem)
+            {
+                case MedicalAid medical:
+                    ProcessMedicalUse(medical);
+                    break;
+                case Clues clues:
+                    ProcessClueUse(clues);
+                    break;
+                default:
+                    break;
+            }
+        }
+        /// <summary>
+        /// process the effects of using the relic
+        /// </summary>
+        /// <param name="Clue">potion</param>
+        private void ProcessClueUse(Clues clues)
+        {
+            string message;
+
+            switch (clues.UseAction)
+            {
+                case Clues.UseActionType.OPENLOCATION:
+                    message = _gameMap.OpenLocationsByClue(clues.Id);
+                    CurrentLocationInformation = clues.UseMessage;
+                    break;
+                case Clues.UseActionType.KILLPLAYER:
+                    OnPlayerDies(clues.UseMessage);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// process the effects of using the potion
+        /// </summary>
+        /// <param name="medical">potion</param>
+        private void ProcessMedicalUse(MedicalAid medical)
+        {
+            _player.Health += medical.HealthChange;
+            _player.RemoveGameItemFromInventory(_currentGameItem);
+        }
+
+        /// <summary>
+        /// process player dies with option to reset and play again
+        /// </summary>
+        /// <param name="message">message regarding player death</param>
+        private void OnPlayerDies(string message)
+        {
+            string messagetext = message +
+                "\n\nWould you like to play again?";
+
+            string titleText = "Death";
+            MessageBoxButton button = MessageBoxButton.YesNo;
+            MessageBoxResult result = MessageBox.Show(messagetext, titleText, button);
+
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    ResetPlayer();
+                    break;
+                case MessageBoxResult.No:
+                    QuiteApplication();
+                    break;
+            }
+        }
+        /// <summary>
+        /// player chooses to exit game
+        /// </summary>
+        private void QuiteApplication()
+        {
+            Environment.Exit(0);
+        }
+
+        /// <summary>
+        /// player chooses to reset game
+        /// </summary>
+        private void ResetPlayer()
+        {
+            Environment.Exit(0);
         }
 
         #endregion

@@ -170,6 +170,43 @@
                                    	ItemsSource="{Binding AccessibleLocations}"
                                    	SelectedItem="{Binding CurrentLocationName}">
                             </ListBox>
+                            <TabControl 
+                                    x:Name="LocationInfoTabControl"
+                                    Width="350">
+                                <TabItem Header="Items"
+                                        x:Name="ItemsInfoTabItem">
+                                    <DataGrid 
+                                            x:Name="LocationItemsDataGrid"
+                                            Height="150"
+                                            ItemsSource="{Binding CurrentLocation.GameItems}" 
+                                            SelectedItem="{Binding CurrentGameItem}"
+                                            AutoGenerateColumns="False"
+                                            HeadersVisibility="Column">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn 
+                                                    Header="Description" 
+                                                    IsReadOnly="True"                 
+                                                    Binding="{Binding Information, Mode=OneWay}"
+                                                    Width="*">
+                                                <DataGridTextColumn.ElementStyle>
+                                                    <Style>
+                                                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                                    </Style>
+                                                </DataGridTextColumn.ElementStyle>
+                                            </DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </TabItem>
+                            </TabControl>
+                            <StackPanel
+                            Grid.Row="1"
+                            Orientation="Horizontal">
+                                <Button 
+                                Content="Pick Up"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource MainPanelButtonStyle}" 
+                                Click="PickUpButton_Click"/>
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -246,6 +283,33 @@
                                 HorizontalAlignment="Center"
                                 Content="Inventory" 
                                 Style="{StaticResource MainPanelLabelStyle}"/>
+                            <DataGrid 
+                            x:Name="InventoryDataGrid"
+                            ItemsSource="{Binding Player.Inventory}"
+                            SelectedItem="{Binding CurrentGameItem}"
+                            AutoGenerateColumns="False"
+                            HeadersVisibility="Column">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Name"
+                                                Binding="{Binding Name, Mode=OneWay}"
+                                                Width="*"/>
+                                    <DataGridTextColumn Header="Value"
+                                                Binding="{Binding Value, Mode=OneWay}"
+                                                Width="Auto"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <StackPanel
+                            Orientation="Horizontal"
+                            Margin="10">
+                                <Button 
+                                Content="Put Down" 
+                                Style="{StaticResource MainPanelButtonStyle}" 
+                                Click="PutDownButton_Click"/>
+                                <Button 
+                                Content="Use" 
+                                Style="{StaticResource MainPanelButtonStyle}" 
+                                Click="UseButton_Click"/>
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
                 </Border>

@@ -13,6 +13,7 @@ namespace TBQuestGame.Models
         private ObservableCollection<Location> _locations;
         private Location _currentLocation;
         private ObservableCollection<Location> _accessibleLocations;
+        private List<GameItem> _standardGameItems;
 
         #endregion
 
@@ -44,6 +45,11 @@ namespace TBQuestGame.Models
             }
 
         }
+        public List<GameItem> StandardGameItems
+        {
+            get { return _standardGameItems; }
+            set { _standardGameItems = value; }
+        }
         #endregion
 
         #region CONSTRUCTORS
@@ -52,6 +58,24 @@ namespace TBQuestGame.Models
 
         #region METHODS
 
+        /// <summary>
+        /// open the location controlled by a given clue
+        /// </summary>
+        /// <param name="clueId"></param>
+        /// <returns>user message regarding success of attempt</returns>
+        public string OpenLocationsByClue(int clueId)
+        {
+            string message = "This clue is not helpful here.";
+            Location mapLocation = new Location();
+              if (mapLocation != null && mapLocation.RequiredClueId == clueId)
+                {
+                    mapLocation.Accessible = true;
+                    message = $"{mapLocation.Name} is now accessible.";
+                }
+                
+
+            return message;
+        }
 
         public void Move(Location location)
         {

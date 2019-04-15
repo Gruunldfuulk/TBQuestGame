@@ -34,5 +34,28 @@ namespace TBQuestGame.PresentationLayer
         {
             this.Title = "Storm Cloud Productions";
         }
+        private void PickUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (LocationItemsDataGrid.SelectedItem != null)
+            {
+                _gameSessionViewModel.AddItemToInventory();
+            }
+        }
+
+        private void PutDownButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (InventoryDataGrid.SelectedItem != null)
+            {
+                _gameSessionViewModel.RemoveItemFromInventory();
+            }
+        }
+
+        private void UseButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (InventoryDataGrid.SelectedItem != null)
+            {
+                _gameSessionViewModel.OnUseGameItem();
+            }
+        }
     }
 }
