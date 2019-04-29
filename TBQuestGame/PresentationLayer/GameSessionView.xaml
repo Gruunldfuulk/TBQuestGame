@@ -10,7 +10,8 @@
         Height="900" 
         Width="1250" 
         FontFamily="/TBQuestGame;component/Fonts/#Cute Font" FontSize="20">
-    <Window.Resources>        
+    <Window.Resources>
+        
         <Style x:Key="MainWindowStyle" TargetType="Grid">
             <Setter Property="Background">
                 <Setter.Value>
@@ -102,7 +103,7 @@
             <Setter Property="Width" Value="100"/>
             <Setter Property="Height" Value="20"/>
             <Setter Property="FontFamily" Value="/TBQuestGame;component/Fonts/#Cute Font"/>
-            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontSize" Value="20"/>
             <Setter Property="Padding" Value="3,0,0,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Background" Value="#0D0208"/>
@@ -123,7 +124,7 @@
         </Style>
     </Window.Resources>
     <Grid Style="{StaticResource MainWindowStyle}">
-        <MediaElement  Source="../Sounds/Riser.wav"/>
+        
         <Border
             Margin="10"
             Style="{StaticResource BorderStyle}">
