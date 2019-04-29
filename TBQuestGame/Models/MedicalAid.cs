@@ -11,8 +11,8 @@ namespace TBQuestGame.Models
         public int HealthChange { get; set; }
         
 
-        public MedicalAid(int id, string name, int value, int healthChange, string description, int experiencePoints)
-            : base(id, name, value, description, experiencePoints)
+        public MedicalAid(int id, string name, int value, int healthChange, string description, int experiencePoints, string useMessage)
+            : base(id, name, value, description, experiencePoints, useMessage)
         {
             HealthChange = healthChange;
             

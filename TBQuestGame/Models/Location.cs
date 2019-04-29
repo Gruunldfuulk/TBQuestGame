@@ -21,6 +21,7 @@ namespace TBQuestGame.Models
         private int _modifyCredits;
         private string _message;
         private ObservableCollection<GameItem> _gameItems;
+        private ObservableCollection<Npc> _npcs;
 
         #endregion
 
@@ -79,6 +80,11 @@ namespace TBQuestGame.Models
         {
             get { return _gameItems; }
             set { _gameItems = value; }
+        }
+        public ObservableCollection<Npc> Npcs
+        {
+            get { return _npcs; }
+            set { _npcs = value; }
         }
 
         #endregion

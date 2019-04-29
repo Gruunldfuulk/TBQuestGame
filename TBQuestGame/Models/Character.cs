@@ -18,7 +18,8 @@ namespace TBQuestGame.Models
         {
             Human,
             Elf,
-            Gnome
+            Gnome,
+            Orc
         }
 
         #endregion
@@ -31,6 +32,8 @@ namespace TBQuestGame.Models
         protected int _age;
         protected RaceType _race;
         private List<Location> _locationsVisited;
+
+        protected Random random = new Random();
 
         public List<Location> LocationsVisited
         {
@@ -82,11 +85,11 @@ namespace TBQuestGame.Models
 
         }
 
-        public Character(string name, RaceType race, int locationId)
+        public Character(int id, string name, RaceType race)
         {
             _name = name;
             _race = race;
-            _locationId = locationId;
+            //_locationId = locationId;
         }
 
         #endregion

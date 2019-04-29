@@ -44,7 +44,7 @@ namespace TBQuestGame.PresentationLayer
 
         private void PutDownButton_Click(object sender, RoutedEventArgs e)
         {
-            if (InventoryDataGrid.SelectedItem != null)
+            if (LocationInfoTabControl.SelectedItem != null)
             {
                 _gameSessionViewModel.RemoveItemFromInventory();
             }
@@ -52,10 +52,52 @@ namespace TBQuestGame.PresentationLayer
 
         private void UseButton_Click(object sender, RoutedEventArgs e)
         {
-            if (InventoryDataGrid.SelectedItem != null)
+            if (LocationInfoTabControl.SelectedItem != null)
             {
                 _gameSessionViewModel.OnUseGameItem();
             }
+        }
+
+        private void TalkToButton_Click(object sender, RoutedEventArgs e)
+        {
+                if (LocationNpcsDataGrid.SelectedItem != null)
+            {
+                _gameSessionViewModel.OnPlayerTalkTo();
+            }
+        }
+
+        private void AttackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (LocationNpcsDataGrid.SelectedItem != null)
+            {
+                _gameSessionViewModel.OnPlayerAttack();
+            }
+        }
+
+        private void DefendButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (LocationNpcsDataGrid.SelectedItem != null)
+            {
+                _gameSessionViewModel.OnPlayerDefend();
+            }
+        }
+
+        private void RetreatButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (LocationNpcsDataGrid.SelectedItem != null)
+            {
+                _gameSessionViewModel.OnPlayerRetreat();
+            }
+        }
+
+        private void InventoryDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void playbutton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

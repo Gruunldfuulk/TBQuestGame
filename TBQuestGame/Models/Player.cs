@@ -8,19 +8,26 @@ using System.Windows.Data;
 
 namespace TBQuestGame.Models
 {
-    public class Player : Character
+    public class Player : Character, IBattle
     {
         #region ENUMS
 
-        public enum JobTitleName { Hacker, StreetPunk, BountieHunter }
+        public enum JobTitleName { Hacker, StreetPunk, BountieHunter, Esper }
 
         #endregion
 
+        private const int DEFENDER_DAMAGE_ADJUSTMENT = 10;
+        private const int MAXIMUM_RETREAT_DAMAGE = 10;
+
         #region FIELDS
 
-        private int _credits;
+        private int _lives;
         private int _health;
         private int _memoryPoints;
+        private int _credits;
+        private int _skillLevel;
+        private Weapon _currentWeapon;
+        private BattleModeName _battleMode;
         private JobTitleName _jobTitle;
         private List<Location> _locationsVisited;
         private ObservableCollection<GameItem> _inventory;
@@ -32,6 +39,15 @@ namespace TBQuestGame.Models
         #endregion
 
         #region PROPERTIES
+        public int Lives
+        {
+            get { return _lives; }
+            set
+            {
+                _lives = value;
+                OnPropertyChanged(nameof(Lives));
+            }
+        }
 
         public int Credits
         {
@@ -81,6 +97,23 @@ namespace TBQuestGame.Models
                 _memoryPoints = value;
                 OnPropertyChanged(nameof(MemoryPoints));
             }
+        }
+        public int SkillLevel
+        {
+            get { return _skillLevel; }
+            set { _skillLevel = value; }
+        }
+        public Weapon CurrentWeapon
+        {
+            get { return _currentWeapon; }
+            set { _currentWeapon = value; }
+        }
+
+
+        public BattleModeName BattleMode
+        {
+            get { return _battleMode; }
+            set { _battleMode = value; }
         }
         public List<Location> LocationsVisited
         {
@@ -185,7 +218,64 @@ namespace TBQuestGame.Models
                 _inventory.Remove(selectedGameItem);
             }
         }
+        #region BATTLE METHODS
 
+        /// <summary>
+        /// return hit points [0 - 100] based on the player's weapon and skill level
+        /// </summary>
+        /// <returns>hit points 0-100</returns>
+        public int Attack()
+        {
+            int hitPoints = random.Next(CurrentWeapon.MinimumDamage, CurrentWeapon.MaximumDamage) * _skillLevel;
+
+            if (hitPoints <= 100)
+            {
+                return hitPoints;
+            }
+            else
+            {
+                return 100;
+            }
+        }
+
+        /// <summary>
+        /// return hit points [0 - 100] based on the player's weapon and skill level
+        /// adjusted to deliver more damage when first attacked
+        /// </summary>
+        /// <returns>hit points 0-100</returns>
+        public int Defend()
+        {
+            int hitPoints = (random.Next(CurrentWeapon.MinimumDamage, CurrentWeapon.MaximumDamage) * _skillLevel) - DEFENDER_DAMAGE_ADJUSTMENT;
+
+            if (hitPoints <= 100)
+            {
+                return hitPoints;
+            }
+            else
+            {
+                return 100;
+            }
+        }
+
+        /// <summary>
+        /// return hit points [0 - 100] based on the player's skill level
+        /// </summary>
+        /// <returns>hit points 0-100</returns>
+        public int Retreat()
+        {
+            int hitPoints = _skillLevel * MAXIMUM_RETREAT_DAMAGE;
+
+            if (hitPoints <= 100)
+            {
+                return hitPoints;
+            }
+            else
+            {
+                return 100;
+            }
+        }
+
+        #endregion
 
         public bool HasVisited(Location location)
         {

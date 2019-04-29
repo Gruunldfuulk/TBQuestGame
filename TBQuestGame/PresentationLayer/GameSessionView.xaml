@@ -6,36 +6,60 @@
         xmlns:local="clr-namespace:TBQuestGame.PresentationLayer"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Background="SteelBlue"
-        Title="GameSessionView" 
-        Height="750" 
-        Width="1200">
-    <Window.Resources>
+        Title="Mind Hack" 
+        Height="900" 
+        Width="1250" 
+        FontFamily="/TBQuestGame;component/Fonts/#Cute Font" FontSize="20">
+    <Window.Resources>        
+        <Style x:Key="MainWindowStyle" TargetType="Grid">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="../Images/Background_green.jpg" Stretch="UniformToFill"></ImageBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="MainPictureStyle" TargetType="Border">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="../Images/head-full-big.png" Stretch="Uniform" Opacity="0.98"></ImageBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="MainTabItemStyle" TargetType="TabItem">
+            <Setter Property="Width" Value="75"/>
+            <Setter Property="FontSize" Value="19"/>
+            <Setter Property="FontFamily" Value="/TBQuestGame;component/Fonts/#Cute Font"/>
+            <Setter Property="Background" Value="#0D0208"/>
+            <Setter Property="Foreground" Value="#00FF41"/>
+        </Style>
         <LinearGradientBrush 
             x:Key="GrayBlueGradientBrush" 
             StartPoint="0,0" 
             EndPoint="1,0"
             Opacity="50">
-            <GradientStop Color="MidnightBlue" Offset="0"/>
-            <GradientStop Color="#CCCCFF" Offset="0.25" />
-            <GradientStop Color="#CCCCFF" Offset="0.75" />
-            <GradientStop Color="MidnightBlue" Offset="1" />
+            <GradientStop Color="#003B00" Offset="0"/>
+            <GradientStop Color="#0D0208" Offset="0.25" />
+            <GradientStop Color="#0D0208" Offset="0.75" />
+            <GradientStop Color="#003B00" Offset="1" />
         </LinearGradientBrush>
         <Style x:Key="BorderStyle" TargetType="Border">
-            <Setter Property="BorderBrush" Value="PowderBlue"/>
+            <Setter Property="BorderBrush" Value="#00FF41"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="10"/>
         </Style>
         <Style x:Key="MainPanelLabelStyle" TargetType="Label">
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontFamily" Value="Lucida Console"/>
+            <Setter Property="Foreground" Value="#0D0208"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontFamily" Value="/TBQuestGame;component/Fonts/#Cute Font"/>
         </Style>
         <Style x:Key="MainPanelButtonStyle" TargetType="Button">
             <Setter Property="Margin" Value="10,0,10,0"/>
             <Setter Property="Width" Value="75"/>
-            <Setter Property="Height" Value="20"/>
-            <Setter Property="Background" Value="Silver"/>
-            <Setter Property="Foreground" Value="MidnightBlue"/>
+            <Setter Property="FontSize" Value="19"/>
+            <Setter Property="FontFamily" Value="/TBQuestGame;component/Fonts/#Cute Font"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Background" Value="#0D0208"/>
+            <Setter Property="Foreground" Value="#00FF41"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -57,7 +81,7 @@
                                     Margin="2" 
                                     HorizontalAlignment="Center"
                                     Content="{TemplateBinding  Content}" 
-                                    TextBlock.Foreground="Black" />
+                                    TextBlock.Foreground="#00FF41" />
                             </DockPanel>
                         </Grid>
                     </ControlTemplate>
@@ -67,19 +91,21 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background">
                         <Setter.Value>
-                            <SolidColorBrush Color="LightSteelBlue" />
+                            <SolidColorBrush Color="#003B00" />
                         </Setter.Value>
                     </Setter>
                 </Trigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="MainPanelTextBoxStyle" TargetType="TextBox">
-            <Setter Property="Foreground" Value="MidnightBlue"/>
+            <Setter Property="Foreground" Value="#00FF41"/>
             <Setter Property="Width" Value="100"/>
             <Setter Property="Height" Value="20"/>
+            <Setter Property="FontFamily" Value="/TBQuestGame;component/Fonts/#Cute Font"/>
+            <Setter Property="FontSize" Value="18"/>
             <Setter Property="Padding" Value="3,0,0,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Background" Value="WhiteSmoke"/>
+            <Setter Property="Background" Value="#0D0208"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate>
@@ -96,16 +122,17 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid>
+    <Grid Style="{StaticResource MainWindowStyle}">
+        <MediaElement  Source="../Sounds/Riser.wav"/>
         <Border
             Margin="10"
             Style="{StaticResource BorderStyle}">
             <Grid
                 Margin="10">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height=".5*"/>
-                    <RowDefinition Height="3*"/>
-                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height=".3*"/>
+                    <RowDefinition Height="2.9*"/>
+                    <RowDefinition Height="1.6*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
@@ -117,23 +144,19 @@
                     Style="{StaticResource BorderStyle}">
                     <Grid>
                         <StackPanel
-                            Orientation="Vertical"
+                            Orientation="Horizontal"
                             HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Margin="4">
-                            <Label 
-                                Content="Status:" 
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Style="{StaticResource MainPanelLabelStyle}"/>
+                            Margin="1">
+                            <Label Content="Status:" Style="{StaticResource MainPanelLabelStyle}" Padding="2, 4, 20, 0" Margin="0,4,0,4" Width="70"/>
+                            <TextBox Text="{Binding Player.Health}" Style="{StaticResource MainPanelTextBoxStyle}" Padding="0, 0, 0, 0"/>
                         </StackPanel>
                         <StackPanel
-                            Orientation="Vertical"
+                            Orientation="Horizontal"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Margin="4">
+                            <Label Content="Current Location:" Style="{StaticResource MainPanelLabelStyle}" FontWeight="Bold" Padding="9, 1, 0, 0" Margin="0,3,0,3" Width="120"/>
                             <TextBox
-                                Margin="5"
                                 Width="200"
                                 Text="{Binding CurrentLocation.Name}"
                                 Style="{StaticResource MainPanelTextBoxStyle}"/>
@@ -142,7 +165,7 @@
                                 Orientation="Horizontal"
                             HorizontalAlignment="Right"
                             Margin="1">
-                            <Label Content="Credits:" Style="{StaticResource MainPanelLabelStyle}" Padding="0, 20, 20, 0" Margin="0,5,0,21" Width="80"/>
+                            <Label Content="Credits:" Style="{StaticResource MainPanelLabelStyle}" Padding="2, 4, 20, 0" Margin="0,4,0,4" Width="70"/>
                             <TextBox Text="{Binding Player.Credits}" Style="{StaticResource MainPanelTextBoxStyle}" Padding="0, 0, 0, 0"/>
                         </StackPanel>
                     </Grid>
@@ -165,21 +188,64 @@
                                 Height="100"
                                 Text="{Binding CurrentLocation.Description}"
                                 Style="{StaticResource MainPanelTextBoxStyle}"/>
-                            <ListBox
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <ListBox
 	                                Width="300"
+                                    MaxHeight="80"
+                                    Background="#0D0208"
+                                    Foreground="#00FF41"
                                    	ItemsSource="{Binding AccessibleLocations}"
-                                   	SelectedItem="{Binding CurrentLocationName}">
-                            </ListBox>
+                                   	SelectedItem="{Binding CurrentLocationName}" FontFamily="/TBQuestGame;component/Fonts/#Cute Font" FontSize="16" BorderBrush="#003B00">
+                                </ListBox>
+                            </Grid>
                             <TabControl 
                                     x:Name="LocationInfoTabControl"
-                                    Width="350">
+                                    Width="350"
+                                    Background="#0D0208"
+                                    Foreground="#00FF41" BorderBrush="#003B00" FontFamily="/TBQuestGame;component/Fonts/#Cute Font" FontSize="16">
                                 <TabItem Header="Items"
+                                        Style="{StaticResource MainTabItemStyle}"
                                         x:Name="ItemsInfoTabItem">
                                     <DataGrid 
                                             x:Name="LocationItemsDataGrid"
-                                            Height="150"
+                                            Height="140"
+                                            Background="#0D0208"
+                                            Foreground="#00FF41"
                                             ItemsSource="{Binding CurrentLocation.GameItems}" 
                                             SelectedItem="{Binding CurrentGameItem}"
+                                            AutoGenerateColumns="False"
+                                            HeadersVisibility="Column" BorderBrush="#003B00" FontFamily="/TBQuestGame;component/Fonts/#Cute Font" FontSize="16">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn 
+                                                    Header="Description" 
+                                                    IsReadOnly="True"                 
+                                                    Binding="{Binding Information, Mode=OneWay}"
+                                                    Width="*">
+                                                <DataGridTextColumn.ElementStyle>
+                                                    <Style>
+                                                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                                    </Style>
+                                                </DataGridTextColumn.ElementStyle>
+                                            </DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </TabItem>
+                                <TabItem Header="NPCs"
+                                        Style="{StaticResource MainTabItemStyle}"
+                                        x:Name="NpcsInfoTabItem">
+                                    <DataGrid 
+                                            x:Name="LocationNpcsDataGrid"
+                                            Height="150"
+                                            Background="#0D0208"
+                                            Foreground="#00FF41"
+                                            ItemsSource="{Binding CurrentLocation.Npcs}" 
+                                            SelectedItem="{Binding CurrentNpc}"
                                             AutoGenerateColumns="False"
                                             HeadersVisibility="Column">
                                         <DataGrid.Columns>
@@ -200,12 +266,34 @@
                             </TabControl>
                             <StackPanel
                             Grid.Row="1"
-                            Orientation="Horizontal">
-                                <Button 
-                                Content="Pick Up"
-                                HorizontalAlignment="Center"
+                            Orientation="Vertical" Height="114">
+                                <StackPanel
+                                    Orientation="Vertical"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Margin="1" Width="95" Height="28">
+                                    <Button 
+                                Content="Talk"
                                 Style="{StaticResource MainPanelButtonStyle}" 
-                                Click="PickUpButton_Click"/>
+                                HorizontalAlignment="left" VerticalAlignment="Center" BorderBrush="#003B00" Click="TalkToButton_Click"/>
+                                </StackPanel>
+                                <StackPanel
+                                Orientation="Vertical"    
+                                Margin="1" Width="146">
+                                    <Button
+                                Content="Attack" 
+                                Style="{StaticResource MainPanelButtonStyle}" 
+                                Click="AttackButton_Click"/>
+                                    <Button
+                                Margin="0,3,0,3"
+                                Content="Defend" 
+                                Style="{StaticResource MainPanelButtonStyle}" 
+                                Click="DefendButton_Click"/>
+                                    <Button 
+                                Content="Retreat" 
+                                Style="{StaticResource MainPanelButtonStyle}" 
+                                Click="RetreatButton_Click"/>
+                                </StackPanel>
                             </StackPanel>
                         </StackPanel>
                     </Grid>
@@ -217,10 +305,10 @@
                     <Grid
                         Margin="5">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="0.6*"/>
                             <ColumnDefinition Width="0.7*"/>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1.8*"/>
+                            <ColumnDefinition Width="1.1*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel
                             Grid.Column="0"
@@ -250,25 +338,26 @@
                                 <TextBox Text="{Binding Player.MemoryPoints}" Style="{StaticResource MainPanelTextBoxStyle}"/>
                                 <Label Content="Memories" Style="{StaticResource MainPanelLabelStyle}"/>
                             </StackPanel>
+                            
                         </StackPanel>
                         <Border
                             Grid.Column="1"
-                            Margin="0"
-                            Padding="0"
-                            Style="{StaticResource BorderStyle}">
-                            <Label Content="Character Picture" Style="{StaticResource MainPanelLabelStyle}" HorizontalAlignment="Center"/>
+                            Margin="1"
+                            Padding="0"   
+                            Style="{StaticResource MainPictureStyle}">                            
+                            <Label Content="Character Picture" Style="{StaticResource MainPanelLabelStyle}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                         </Border>
                         <Border
                             Grid.Column="2"
                             Margin="0"
                             Padding="0"
-                            Background="WhiteSmoke"
+                            Background="#0D0208"
                             Style="{StaticResource BorderStyle}">
                             <TextBox
                                 Height="auto"
                                 Width="auto"
                                 Margin="10"
-                                Background="WhiteSmoke"
+                                Background="#0D0208"
                                 BorderThickness="0"
                                 TextWrapping="Wrap"
                                 Text="{Binding MessageDisplay, Mode=OneWay}"
@@ -283,32 +372,53 @@
                                 HorizontalAlignment="Center"
                                 Content="Inventory" 
                                 Style="{StaticResource MainPanelLabelStyle}"/>
-                            <DataGrid 
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <DataGrid 
                             x:Name="InventoryDataGrid"
+                            Background="#0D0208"
+                            Foreground="#00FF41"
+                            MaxHeight="140"
                             ItemsSource="{Binding Player.Inventory}"
                             SelectedItem="{Binding CurrentGameItem}"
                             AutoGenerateColumns="False"
-                            HeadersVisibility="Column">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Name"
+                            HeadersVisibility="Column" BorderBrush="#003B00" FontFamily="/TBQuestGame;component/Fonts/#Cute Font" FontSize="16" SelectionChanged="InventoryDataGrid_SelectionChanged">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Name"
                                                 Binding="{Binding Name, Mode=OneWay}"
                                                 Width="*"/>
-                                    <DataGridTextColumn Header="Value"
+                                        <DataGridTextColumn Header="Value"
                                                 Binding="{Binding Value, Mode=OneWay}"
                                                 Width="Auto"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                            <StackPanel
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                                <Label Content="Equiped" Style="{StaticResource MainPanelLabelStyle}"/>
+                                <TextBox Text="{Binding CurrentGameItem.GameItem.Name}" Style="{StaticResource MainPanelTextBoxStyle}"/>
+                            </StackPanel>
                             <StackPanel
                             Orientation="Horizontal"
                             Margin="10">
                                 <Button 
+                                Content="Pick Up"
+                                Style="{StaticResource MainPanelButtonStyle}" 
+                                Click="PickUpButton_Click" HorizontalAlignment="Center" BorderBrush="#003B00"/>
+                                <Button 
                                 Content="Put Down" 
                                 Style="{StaticResource MainPanelButtonStyle}" 
-                                Click="PutDownButton_Click"/>
+                                Click="PutDownButton_Click" BorderBrush="#003B00"/>
                                 <Button 
                                 Content="Use" 
                                 Style="{StaticResource MainPanelButtonStyle}" 
-                                Click="UseButton_Click"/>
+                                Click="UseButton_Click" BorderBrush="#003B00"/>
                             </StackPanel>
                         </StackPanel>
                     </Grid>

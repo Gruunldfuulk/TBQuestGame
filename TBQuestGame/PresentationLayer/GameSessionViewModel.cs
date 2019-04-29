@@ -34,7 +34,9 @@ namespace TBQuestGame.PresentationLayer
         private ObservableCollection<Location> _accessibleLocations;
 
         private GameItem _currentGameItem;
+        private Npc _currentNpc;
 
+        private Random random = new Random();
 
         #endregion
 
@@ -50,14 +52,6 @@ namespace TBQuestGame.PresentationLayer
         {
             get { return FormatMessagesForViewer(); }
         }
-
-        public GameItem CurrentGameItem
-        {
-            get { return _currentGameItem; }
-            set { _currentGameItem = value; }
-        }
-
-
         public string CurrentLocationInformation
         {
             get { return _currentLocationInformation; }
@@ -124,8 +118,30 @@ namespace TBQuestGame.PresentationLayer
             get { return _gameMap; }
             set { _gameMap = value; }
         }
+        public GameItem CurrentGameItem
+        {
+            get { return _currentGameItem; }
 
-        
+            set
+            {
+                _currentGameItem = value;
+                OnPropertyChanged(nameof(CurrentGameItem));
+                if (_currentGameItem != null && _currentGameItem is Weapon)
+                {
+                    _player.CurrentWeapon = _currentGameItem as Weapon;
+                }
+            }
+        }
+        public Npc CurrentNpc
+        {
+            get { return _currentNpc; }
+            set
+            {
+                _currentNpc = value;
+                OnPropertyChanged(nameof(CurrentNpc));
+            }
+        }
+
 
         #endregion
 
@@ -138,7 +154,7 @@ namespace TBQuestGame.PresentationLayer
         {
             _gameStartTime = DateTime.Now;
             _accessibleLocations = _gameMap.AccessibleLocations;
-            _player.UpdateInventoryCategories();    
+            _player.UpdateInventoryCategories();
             _player.CalculateCredit();
         }
 
@@ -359,6 +375,8 @@ namespace TBQuestGame.PresentationLayer
         {
             _player.Health += medical.HealthChange;
             _player.RemoveGameItemFromInventory(_currentGameItem);
+            _messages.Add(medical.UseMessage);
+            OnPropertyChanged(nameof(MessageDisplay));
         }
 
         /// <summary>
@@ -385,6 +403,44 @@ namespace TBQuestGame.PresentationLayer
             }
         }
         /// <summary>
+        /// handle the speak to event in the view
+        /// </summary>
+        public void OnPlayerTalkTo()
+        {
+            if (CurrentNpc != null && CurrentNpc is ISpeak)
+            {
+                ISpeak speakingNpc = CurrentNpc as ISpeak;
+                CurrentLocationInformation = speakingNpc.Speak();
+            }
+        }
+        /// <summary>
+        /// handle the attack event in the view.
+        /// </summary>
+        public void OnPlayerAttack()
+        {
+            _player.BattleMode = BattleModeName.ATTACK;
+            Battle();
+        }
+
+        /// <summary>
+        /// handle the defend event in the view.
+        /// </summary>
+        public void OnPlayerDefend()
+        {
+            _player.BattleMode = BattleModeName.DEFEND;
+            Battle();
+        }
+
+        /// <summary>
+        /// handle the retreat event in the view.
+        /// </summary>
+        public void OnPlayerRetreat()
+        {
+            _player.BattleMode = BattleModeName.RETREAT;
+            Battle();
+        }
+
+        /// <summary>
         /// player chooses to exit game
         /// </summary>
         private void QuiteApplication()
@@ -399,13 +455,163 @@ namespace TBQuestGame.PresentationLayer
         {
             Environment.Exit(0);
         }
-
         #endregion
 
+        #region BATTLE METHODS
+
+        /// <summary>
+        /// process the outcome of a battle with an NPC
+        /// </summary>
+        private void Battle()
+        {
+            //
+            // check to see if an NPC can battle
+            //
+            if (_currentNpc is IBattle)
+            {
+                IBattle battleNpc = _currentNpc as IBattle;
+                int playerHitPoints = 0;
+                int battleNpcHitPoints = 0;
+                string battleInformation = "";
+
+                //
+                // calculate hit points if the player and NPC have weapons
+                //
+                if (_player.CurrentWeapon != null)
+                {
+                    playerHitPoints = CalculatePlayerHitPoints();
+                }
+                else
+                {
+                    battleInformation = "It appears you are entering into battle without a weapon.";
+                }
+
+                if (battleNpc.CurrentWeapon != null)
+                {
+                    battleNpcHitPoints = CalculateNpcHitPoints(battleNpc);
+                }
+                else
+                {
+                    battleInformation = $"It appears you are entering into battle with {_currentNpc.Name} who has no weapon.";
+                }
+
+                //
+                // build out the text for the current location information
+                //
+                battleInformation +=
+                    $"Player: {_player.BattleMode}     Hit Points: {playerHitPoints}" + Environment.NewLine +
+                    $"NPC: {battleNpc.BattleMode}     Hit Points: {battleNpcHitPoints}" + Environment.NewLine;
+
+                //
+                // determine results of battle
+                //
+                if (playerHitPoints >= battleNpcHitPoints)
+                {
+                    battleInformation += $"You have slain {_currentNpc.Name}.";
+                    _currentLocation.Npcs.Remove(_currentNpc);
+                }
+                else
+                {
+                    battleInformation += $"You have been slain by {_currentNpc.Name}.";
+                    _player.Lives--;
+                }
+
+                CurrentLocationInformation = battleInformation;
+                if (_player.Lives <= 0) OnPlayerDies("You have been slain.");
+            }
+            else
+            {
+                CurrentLocationInformation = "The current NPC is not battle ready. Seems you are a bit jumpy.";
+
+            }
+
+        }
+
+        /// <summary>
+        /// calculate player hit points based on battle mode
+        /// </summary>
+        /// <returns>player hit points</returns>
+        private int CalculatePlayerHitPoints()
+        {
+            int playerHitPoints = 0;
+
+            switch (_player.BattleMode)
+            {
+                case BattleModeName.ATTACK:
+                    playerHitPoints = _player.Attack();
+                    break;
+                case BattleModeName.DEFEND:
+                    playerHitPoints = _player.Defend();
+                    break;
+                case BattleModeName.RETREAT:
+                    playerHitPoints = _player.Retreat();
+                    break;
+            }
+
+            return playerHitPoints;
+        }
+
+        /// <summary>
+        /// calculate NPC hit points based on battle mode
+        /// </summary>
+        /// <returns>NPC hit points</returns>
+        private int CalculateNpcHitPoints(IBattle battleNpc)
+        {
+            int battleNpcHitPoints = 0;
+
+            switch (NpcBattleResponse())
+            {
+                case BattleModeName.ATTACK:
+                    battleNpcHitPoints = battleNpc.Attack();
+                    break;
+                case BattleModeName.DEFEND:
+                    battleNpcHitPoints = battleNpc.Defend();
+                    break;
+                case BattleModeName.RETREAT:
+                    battleNpcHitPoints = battleNpc.Retreat();
+                    break;
+            }
+
+            return battleNpcHitPoints;
+        }
+
+        /// <summary>
+        /// determine the NPC's battle response
+        /// </summary>
+        /// <returns>battle response</returns>
+        private BattleModeName NpcBattleResponse()
+        {
+            BattleModeName npcBattleResponse = BattleModeName.RETREAT;
+
+            switch (DieRoll(3))
+            {
+                case 1:
+                    npcBattleResponse = BattleModeName.ATTACK;
+                    break;
+                case 2:
+                    npcBattleResponse = BattleModeName.DEFEND;
+                    break;
+                case 3:
+                    npcBattleResponse = BattleModeName.RETREAT;
+                    break;
+            }
+            return npcBattleResponse;
+        }
+
+        #endregion
+        #region HELPER METHODS
+
+        private int DieRoll(int sides)
+        {
+            return random.Next(1, sides + 1);
+        }
+
+        #endregion
         #region EVENTS
 
 
 
         #endregion
     }
+
 }

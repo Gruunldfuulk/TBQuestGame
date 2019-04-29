@@ -18,6 +18,7 @@ namespace TBQuestGame.Models
         public int ExperiencePoints { get; set; }
         public string UseMessage { get; set; }
 
+
         public string Information
         {
             get
