@@ -101,9 +101,9 @@
         <Style x:Key="MainPanelTextBoxStyle" TargetType="TextBox">
             <Setter Property="Foreground" Value="#00FF41"/>
             <Setter Property="Width" Value="100"/>
-            <Setter Property="Height" Value="20"/>
+            <Setter Property="Height" Value="25"/>
             <Setter Property="FontFamily" Value="/TBQuestGame;component/Fonts/#Cute Font"/>
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontSize" Value="24"/>
             <Setter Property="Padding" Value="3,0,0,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Background" Value="#0D0208"/>
